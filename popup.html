@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=360">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --primary: #6366F1;
+    --primary-light: #818CF8;
+    --primary-dim: #4F46E5;
+    --primary-glow: rgba(99, 102, 241, 0.25);
+    --bg: #0F0F14;
+    --bg-card: #16161D;
+    --bg-input: #1C1C26;
+    --border: rgba(255, 255, 255, 0.06);
+    --border-focus: rgba(99, 102, 241, 0.4);
+    --text: #E8E8ED;
+    --text-dim: #72727E;
+    --text-muted: #4A4A56;
+    --green: #34D399;
+    --green-dim: rgba(52, 211, 153, 0.15);
+    --red: #F87171;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    width: 360px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    font-size: 13px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══ NOISE TEXTURE OVERLAY ═══ */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* ═══ HEADER ═══ */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-glow), transparent);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-icon {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dim));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px var(--primary-glow);
+    position: relative;
+  }
+
+  .brand-icon::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--primary-light), transparent);
+    opacity: 0.3;
+    z-index: -1;
+  }
+
+  .brand-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .brand-name {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    background: linear-gradient(to right, var(--text), var(--text-dim));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ═══ TOGGLE ═══ */
+  .toggle-wrap {
+    position: relative;
+  }
+
+  .toggle {
+    appearance: none;
+    width: 44px;
+    height: 24px;
+    background: var(--bg-input);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+  }
+
+  .toggle::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: var(--text-dim);
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .toggle:checked {
+    background: var(--primary);
+    border-color: var(--primary-light);
+    box-shadow: 0 0 12px var(--primary-glow);
+  }
+
+  .toggle:checked::before {
+    transform: translateX(20px);
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+
+  /* ═══ CONTENT ═══ */
+  .content {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* ═══ CARD ═══ */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    transition: border-color 0.25s ease, opacity 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  }
+
+  .card.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .card:hover:not(.disabled) {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .card-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .card-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-icon.camera {
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--primary-light);
+  }
+
+  .card-icon.mic {
+    background: rgba(52, 211, 153, 0.1);
+    color: var(--green);
+  }
+
+  .card-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .card-title {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+
+  .card-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 1px;
+  }
+
+  /* ═══ FORM ELEMENTS ═══ */
+  .field {
+    margin-bottom: 8px;
+  }
+
+  .field:last-child {
+    margin-bottom: 0;
+  }
+
+  select,
+  input[type="text"] {
+    width: 100%;
+    height: 36px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    padding: 0 10px;
+    outline: none;
+    transition: all 0.2s ease;
+    -webkit-appearance: none;
+  }
+
+  select {
+    padding-right: 30px;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2372727E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    cursor: pointer;
+  }
+
+  select:focus,
+  input[type="text"]:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+    background: #1E1E2A;
+  }
+
+  input[type="text"]::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  select option {
+    background: var(--bg-card);
+    color: var(--text);
+    padding: 8px;
+  }
+
+  .input-label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 5px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ═══ STATUS BAR ═══ */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+
+  .status-bar::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .status-dot.active {
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 6px rgba(52, 211, 153, 0.3); }
+    50% { box-shadow: 0 0 12px rgba(52, 211, 153, 0.5); }
+  }
+
+  .status-text {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-weight: 400;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+    transition: color 0.3s ease;
+  }
+
+  .status-text.active {
+    color: var(--green);
+  }
+
+  /* ═══ ANIMATIONS ═══ */
+  .card {
+    animation: card-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  .card:nth-child(1) { animation-delay: 0.05s; }
+  .card:nth-child(2) { animation-delay: 0.12s; }
+
+  @keyframes card-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+
+  .header {
+    animation: fade-in 0.3s ease backwards;
+  }
+
+  .status-bar {
+    animation: fade-in 0.3s ease 0.2s backwards;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+  }
+
+  /* ═══ EMPTY STATE ═══ */
+  .empty-option {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+    </div>
+    <div>
+      <div class="brand-name">Device Guard</div>
+    </div>
+  </div>
+  <div class="toggle-wrap">
+    <input type="checkbox" class="toggle" id="masterToggle">
+  </div>
+</div>
+
+<div class="content">
+  <!-- Camera Card -->
+  <div class="card disabled" id="cameraCard">
+    <div class="card-label">
+      <div class="card-icon camera">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 7l-7 5 7 5V7z"/>
+          <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+        </svg>
+      </div>
+      <div>
+        <div class="card-title">Camera</div>
+        <div class="card-subtitle">Select device to expose</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="input-label">Device</label>
+      <select id="cameraSelect">
+        <option value="" class="empty-option">No cameras found</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="input-label">Spoof Name</label>
+      <input type="text" id="cameraName" placeholder="Custom name...">
+    </div>
+  </div>
+
+  <!-- Microphone Card -->
+  <div class="card disabled" id="micCard">
+    <div class="card-label">
+      <div class="card-icon mic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+          <line x1="8" y1="23" x2="16" y2="23"/>
+        </svg>
+      </div>
+      <div>
+        <div class="card-title">Microphone</div>
+        <div class="card-subtitle">Select device to expose</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="input-label">Device</label>
+      <select id="micSelect">
+        <option value="" class="empty-option">No microphones found</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="input-label">Spoof Name</label>
+      <input type="text" id="micName" placeholder="Custom name...">
+    </div>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="status-dot" id="statusDot"></div>
+  <span class="status-text" id="statusText">Disabled</span>
+</div>
+
+<script>
+  const $ = (sel) => document.querySelector(sel);
+  const masterToggle = $("#masterToggle");
+  const cameraCard = $("#cameraCard");
+  const micCard = $("#micCard");
+  const cameraSelect = $("#cameraSelect");
+  const micSelect = $("#micSelect");
+  const cameraNameInput = $("#cameraName");
+  const micNameInput = $("#micName");
+  const statusDot = $("#statusDot");
+  const statusText = $("#statusText");
+
+  function updateUI(enabled) {
+    cameraCard.classList.toggle("disabled", !enabled);
+    micCard.classList.toggle("disabled", !enabled);
+    statusDot.classList.toggle("active", enabled);
+    statusText.classList.toggle("active", enabled);
+    statusText.textContent = enabled ? "Protected" : "Disabled";
+  }
+
+  function getSettings() {
+    return {
+      enabled: masterToggle.checked,
+      selectedCamera: cameraSelect.value || null,
+      selectedMic: micSelect.value || null,
+      cameraName: cameraNameInput.value || "Camera",
+      micName: micNameInput.value || "Microphone",
+    };
+  }
+
+  function broadcastSettings(settings) {
+    chrome.tabs.query({}, (tabs) => {
+      tabs.forEach((tab) => {
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          world: "MAIN",
+          func: (s) => {
+            localStorage.setItem("__deviceGuard__", JSON.stringify(s));
+            window.dispatchEvent(new CustomEvent("deviceguard-updated"));
+          },
+          args: [settings],
+        }).catch(() => {});
+      });
+    });
+  }
+
+  function saveAndBroadcast() {
+    const settings = getSettings();
+    chrome.storage.local.set(settings);
+    broadcastSettings(settings);
+  }
+
+  // Enumerate real devices
+  async function enumerateDevices() {
+    try {
+      // Request temporary access to get device labels
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+      stream.getTracks().forEach((t) => t.stop());
+    } catch {
+      // User denied — we can still enumerate but labels may be empty
+    }
+
+    const devices = await navigator.mediaDevices.enumerateDevices();
+
+    const cameras = devices.filter((d) => d.kind === "videoinput");
+    const mics = devices.filter((d) => d.kind === "audioinput");
+
+    cameraSelect.innerHTML = "";
+    if (cameras.length === 0) {
+      cameraSelect.innerHTML = '<option value="" class="empty-option">No cameras found</option>';
+    } else {
+      cameras.forEach((cam, i) => {
+        const opt = document.createElement("option");
+        opt.value = cam.deviceId;
+        opt.textContent = cam.label || `Camera ${i + 1}`;
+        cameraSelect.appendChild(opt);
+      });
+    }
+
+    micSelect.innerHTML = "";
+    if (mics.length === 0) {
+      micSelect.innerHTML = '<option value="" class="empty-option">No microphones found</option>';
+    } else {
+      mics.forEach((mic, i) => {
+        const opt = document.createElement("option");
+        opt.value = mic.deviceId;
+        opt.textContent = mic.label || `Microphone ${i + 1}`;
+        micSelect.appendChild(opt);
+      });
+    }
+  }
+
+  // Load saved settings
+  async function loadSettings() {
+    await enumerateDevices();
+
+    chrome.storage.local.get(
+      ["enabled", "selectedCamera", "selectedMic", "cameraName", "micName"],
+      (data) => {
+        if (data.enabled) masterToggle.checked = true;
+        if (data.selectedCamera) cameraSelect.value = data.selectedCamera;
+        if (data.selectedMic) micSelect.value = data.selectedMic;
+        if (data.cameraName) cameraNameInput.value = data.cameraName;
+        if (data.micName) micNameInput.value = data.micName;
+        updateUI(!!data.enabled);
+      }
+    );
+  }
+
+  // Event listeners
+  masterToggle.addEventListener("change", () => {
+    updateUI(masterToggle.checked);
+    saveAndBroadcast();
+  });
+
+  cameraSelect.addEventListener("change", saveAndBroadcast);
+  micSelect.addEventListener("change", saveAndBroadcast);
+
+  let debounceTimer;
+  function debouncedSave() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(saveAndBroadcast, 300);
+  }
+
+  cameraNameInput.addEventListener("input", debouncedSave);
+  micNameInput.addEventListener("input", debouncedSave);
+
+  // Init
+  loadSettings();
+</script>
+
+</body>
+</html>
