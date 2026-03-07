@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#34B892"/>
+      <stop offset="100%" stop-color="#1F7A5E"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="64" y1="20" x2="64" y2="105" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#D4E8E0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background fills entire icon -->
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <!-- Depth shadow -->
+  <rect y="2" width="128" height="128" rx="28" fill="black" opacity="0.06"/>
+
+  <!-- Background again on top of shadow -->
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <!-- Shield body -->
+  <g transform="translate(0, 6)">
+    <path d="M64 100c0 0-34-17-34-42V32l34-13 34 13v26c0 25-34 42-34 42z" fill="url(#shield)" opacity="0.93"/>
+    <path d="M64 100c0 0-34-17-34-42V32l34-13 34 13v26c0 25-34 42-34 42z" stroke="white" stroke-width="1.5" opacity="0.25" fill="none"/>
+    <path d="M50 59l10 10 18-18" stroke="#2D9F7F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M36 35l28-11v22c-9 0-20 2-28 7V35z" fill="white" opacity="0.1"/>
+  </g>
+</svg>

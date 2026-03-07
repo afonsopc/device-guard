@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Device Guard",
   "version": "1.0.0",
-  "description": "Control which camera and microphone websites can see, with custom device names.",
+  "description": "Protect your privacy by controlling which camera, microphone and speaker websites can see, with spoofed device names to prevent fingerprinting.",
   "permissions": ["storage", "scripting"],
   "host_permissions": ["<all_urls>"],
   "action": {
@@ -19,6 +19,11 @@
       "js": ["injector.js"],
       "run_at": "document_start",
       "world": "MAIN"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["bridge.js"],
+      "run_at": "document_start"
     }
   ],
   "background": {

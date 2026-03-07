@@ -1,12 +1,13 @@
 // Background service worker for Device Guard
-// Handles storage and communication between popup and content scripts
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({
     enabled: false,
-    selectedCamera: null,
-    selectedMic: null,
+    cameraIndex: 0,
+    micIndex: 0,
+    speakerIndex: 0,
     cameraName: "Camera",
     micName: "Microphone",
+    speakerName: "Speaker",
   });
 });

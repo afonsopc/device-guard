@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Device Guard - Grant Access</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0F0F14;
+    color: #E8E8ED;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .container {
+    text-align: center;
+    max-width: 400px;
+    padding: 40px;
+  }
+  .icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #6366F1, #4F46E5);
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+  }
+  .icon svg { width: 28px; height: 28px; }
+  h1 { font-size: 20px; margin-bottom: 8px; font-weight: 600; }
+  p { color: #72727E; font-size: 14px; line-height: 1.5; margin-bottom: 24px; }
+  button {
+    background: #6366F1;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button:hover { background: #4F46E5; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  .status {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #34D399;
+    display: none;
+  }
+  .status.error { color: #F87171; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </svg>
+  </div>
+  <h1>Grant Device Access</h1>
+  <p>Device Guard needs camera and microphone permission to detect your devices and show their real names.</p>
+  <button id="grantBtn">Allow Camera & Microphone</button>
+  <div class="status" id="status"></div>
+</div>
+<script src="grant.js"></script>
+</body>
+</html>
