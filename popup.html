@@ -148,16 +148,15 @@
     pointer-events: none;
   }
 
-  .card-label {
+  .card-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 12px;
   }
 
   .card-icon {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -183,45 +182,7 @@
     color: #A78BFA;
   }
 
-  .card-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .card-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .card-subtitle {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 1px;
-  }
-
   /* ── Form ── */
-  .fields {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .field-row {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .input-label {
-    font-size: 10.5px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  select,
   input[type="text"] {
     width: 100%;
     height: 34px;
@@ -235,17 +196,10 @@
     outline: none;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
     -webkit-appearance: none;
+    flex: 1;
+    min-width: 0;
   }
 
-  select {
-    padding-right: 28px;
-    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235C5B58' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    cursor: pointer;
-  }
-
-  select:focus,
   input[type="text"]:focus {
     border-color: var(--accent-border);
     box-shadow: 0 0 0 3px var(--accent-subtle);
@@ -255,68 +209,239 @@
     color: var(--text-muted);
   }
 
-  select option {
-    background: var(--bg-raised);
-    color: var(--text);
+  /* ── Button Group ── */
+  .btn-group {
+    display: flex;
+    box-shadow: var(--shadow);
+    border-radius: 8px;
   }
 
-  /* ── Randomize ── */
-  .randomize-btn {
+  .btn-group .randomize-btn {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 7px;
-    width: 100%;
     padding: 9px;
     background: var(--bg-raised);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 8px 0 0 8px;
+    border-right: none;
     color: var(--text-secondary);
     font-family: inherit;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.15s ease;
-    box-shadow: var(--shadow);
+    box-shadow: none;
   }
 
-  .randomize-btn:hover:not(:disabled) {
+  .btn-group .edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 9px 14px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 0 8px 8px 0;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: none;
+    white-space: nowrap;
+  }
+
+  .btn-group .randomize-btn:hover:not(:disabled),
+  .btn-group .edit-btn:hover:not(:disabled) {
     background: var(--bg-hover);
     color: var(--text);
     border-color: rgba(255,255,255,0.12);
   }
 
-  .randomize-btn:active:not(:disabled) {
+  .btn-group .randomize-btn:active:not(:disabled),
+  .btn-group .edit-btn:active:not(:disabled) {
     transform: scale(0.98);
   }
 
-  .randomize-btn:disabled {
+  .btn-group .randomize-btn:disabled,
+  .btn-group .edit-btn:disabled {
     opacity: 0.3;
     cursor: default;
   }
 
-  /* ── Grant Link ── */
-  .grant-link {
+  /* ── Edit Page ── */
+  .page { display: flex; flex-direction: column; min-height: 0; }
+  .page-main { display: block; }
+  .page-edit { display: none; }
+  body.show-edit .page-main { display: none; }
+  body.show-edit .page-edit { display: block; }
+
+  .edit-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px 14px;
+  }
+
+  .back-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 9px;
-    background: rgba(251, 191, 36, 0.06);
-    border: 1px solid rgba(251, 191, 36, 0.15);
-    border-radius: 8px;
-    color: #FBBF24;
-    font-size: 11.5px;
-    font-weight: 500;
-    text-decoration: none;
+    width: 30px;
+    height: 30px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text-secondary);
     cursor: pointer;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .back-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+  }
+
+  .edit-header-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .edit-content {
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .name-section {
+    background: var(--bg-raised);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+
+  .name-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .name-section-title {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .add-name-btn {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+  }
+
+  .add-name-btn:hover {
+    background: var(--accent-subtle);
+  }
+
+  .name-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 130px;
+    overflow-y: auto;
+  }
+
+  .name-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    background: var(--bg-input);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .name-item span {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .name-item .remove-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 4px;
+    flex-shrink: 0;
     transition: all 0.15s ease;
   }
 
-  .grant-link:hover {
-    background: rgba(251, 191, 36, 0.1);
-    border-color: rgba(251, 191, 36, 0.25);
+  .name-item .remove-btn:hover {
+    background: rgba(248, 113, 113, 0.15);
+    color: #F87171;
   }
+
+  .name-input-row {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+  }
+
+  .name-input-row input {
+    flex: 1;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  .name-input-row .confirm-add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: var(--accent);
+    border: none;
+    border-radius: 7px;
+    color: white;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+  }
+
+  .name-input-row .confirm-add-btn:hover {
+    background: var(--accent-hover);
+  }
+
+  .name-input-row { display: none; }
+  .name-section.adding .name-input-row { display: flex; }
+  .name-section.adding .add-name-btn { display: none; }
 
   /* ── Status Bar ── */
   .status-bar {
@@ -358,11 +483,11 @@
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
-
-  .empty-option { color: var(--text-muted); }
 </style>
 </head>
 <body>
+
+<div class="page page-main">
 
 <div class="header">
   <div class="brand">
@@ -384,33 +509,18 @@
 <div class="content">
 
   <div class="card disabled" id="cameraCard">
-    <div class="card-label">
+    <div class="card-row">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>
         </svg>
       </div>
-      <div class="card-info">
-        <div class="card-title">Camera</div>
-        <div class="card-subtitle">Video input device</div>
-      </div>
-    </div>
-    <div class="fields">
-      <div class="field-row">
-        <label class="input-label">Device</label>
-        <select id="cameraSelect">
-          <option value="0" class="empty-option">No cameras found</option>
-        </select>
-      </div>
-      <div class="field-row">
-        <label class="input-label">Display as</label>
-        <input type="text" id="cameraName" placeholder="Spoofed name...">
-      </div>
+      <input type="text" id="cameraName" placeholder="Camera name...">
     </div>
   </div>
 
   <div class="card disabled" id="micCard">
-    <div class="card-label">
+    <div class="card-row">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -418,27 +528,12 @@
           <line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
         </svg>
       </div>
-      <div class="card-info">
-        <div class="card-title">Microphone</div>
-        <div class="card-subtitle">Audio input device</div>
-      </div>
-    </div>
-    <div class="fields">
-      <div class="field-row">
-        <label class="input-label">Device</label>
-        <select id="micSelect">
-          <option value="0" class="empty-option">No microphones found</option>
-        </select>
-      </div>
-      <div class="field-row">
-        <label class="input-label">Display as</label>
-        <input type="text" id="micName" placeholder="Spoofed name...">
-      </div>
+      <input type="text" id="micName" placeholder="Microphone name...">
     </div>
   </div>
 
   <div class="card disabled" id="speakerCard">
-    <div class="card-label">
+    <div class="card-row">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -446,48 +541,117 @@
           <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
         </svg>
       </div>
-      <div class="card-info">
-        <div class="card-title">Speaker</div>
-        <div class="card-subtitle">Audio output device</div>
-      </div>
-    </div>
-    <div class="fields">
-      <div class="field-row">
-        <label class="input-label">Device</label>
-        <select id="speakerSelect">
-          <option value="0" class="empty-option">No speakers found</option>
-        </select>
-      </div>
-      <div class="field-row">
-        <label class="input-label">Display as</label>
-        <input type="text" id="speakerName" placeholder="Spoofed name...">
-      </div>
+      <input type="text" id="speakerName" placeholder="Speaker name...">
     </div>
   </div>
 
-  <button id="randomizeBtn" class="randomize-btn" disabled>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
-      <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
-      <line x1="4" y1="4" x2="9" y2="9"/>
-    </svg>
-    Randomize names
-  </button>
-
-  <a href="#" id="grantAccess" class="grant-link" style="display:none">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
-      <line x1="12" y1="16" x2="12.01" y2="16"/>
-    </svg>
-    Grant access to detect device names
-  </a>
+  <div class="btn-group">
+    <button id="randomizeBtn" class="randomize-btn" disabled>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
+        <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
+        <line x1="4" y1="4" x2="9" y2="9"/>
+      </svg>
+      Randomize
+    </button>
+    <button id="editBtn" class="edit-btn" disabled>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+      </svg>
+      Edit
+    </button>
+  </div>
 
 </div>
 
-<div class="status-bar">
+<div class="status-bar" id="statusBarMain">
   <div class="status-dot" id="statusDot"></div>
   <span class="status-text" id="statusText">Disabled</span>
 </div>
+
+</div><!-- end page-main -->
+
+<div class="page page-edit">
+
+<div class="edit-header">
+  <button class="back-btn" id="backBtn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+  <div class="edit-header-title">Edit Random Names</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="edit-content">
+
+  <div class="name-section" id="editCameras">
+    <div class="name-section-header">
+      <span class="name-section-title">Cameras</span>
+      <button class="add-name-btn" data-category="cameras">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Add
+      </button>
+    </div>
+    <div class="name-list" data-category="cameras"></div>
+    <div class="name-input-row">
+      <input type="text" placeholder="Name or multiple § separated...">
+      <button class="confirm-add-btn" data-category="cameras">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="name-section" id="editMics">
+    <div class="name-section-header">
+      <span class="name-section-title">Microphones</span>
+      <button class="add-name-btn" data-category="mics">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Add
+      </button>
+    </div>
+    <div class="name-list" data-category="mics"></div>
+    <div class="name-input-row">
+      <input type="text" placeholder="Name or multiple § separated...">
+      <button class="confirm-add-btn" data-category="mics">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="name-section" id="editSpeakers">
+    <div class="name-section-header">
+      <span class="name-section-title">Speakers</span>
+      <button class="add-name-btn" data-category="speakers">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Add
+      </button>
+    </div>
+    <div class="name-list" data-category="speakers"></div>
+    <div class="name-input-row">
+      <input type="text" placeholder="Name or multiple § separated...">
+      <button class="confirm-add-btn" data-category="speakers">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+</div>
+</div><!-- end page-edit -->
 
 <script src="popup.js"></script>
 

@@ -3,13 +3,10 @@
 
 function pushSettings() {
   chrome.storage.local.get(
-    ["enabled", "cameraIndex", "micIndex", "speakerIndex", "cameraName", "micName", "speakerName"],
+    ["enabled", "cameraName", "micName", "speakerName"],
     (data) => {
       const settings = {
         enabled: !!data.enabled,
-        cameraIndex: data.cameraIndex || 0,
-        micIndex: data.micIndex || 0,
-        speakerIndex: data.speakerIndex || 0,
         cameraName: data.cameraName || "Camera",
         micName: data.micName || "Microphone",
         speakerName: data.speakerName || "Speaker",

@@ -3,7 +3,7 @@
   "name": "Device Guard",
   "version": "1.0.0",
   "description": "Protect your privacy by controlling which camera, microphone and speaker websites can see, with spoofed device names to prevent fingerprinting.",
-  "permissions": ["storage", "scripting", "offscreen"],
+  "permissions": ["storage"],
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html",
